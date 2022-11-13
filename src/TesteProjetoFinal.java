@@ -20,69 +20,93 @@ public class TesteProjetoFinal {
             opcao = Integer.parseInt(sc.nextLine());
 
             switch (opcao) {
-                case 1: cadastrarGarcom (sc, garcons);
-                break;
-                case 2: removeGarcom (sc, garcons);
-                break;
-                case 3: cadastrarMesa (sc, mesas);
-                break;
+                case 1:
+                    cadastrarGarcom(sc);
+                    break;
+                case 2:
+                    removeGarcom(sc);
+                    break;
+                case 3:
+                    cadastrarMesa(sc);
+                    break;
 
 
             }
         }
     }
 
-    private static void cadastrarMesa(Scanner sc, ArrayList<Mesa> mesas) {
+    private static void cadastrarMesa(Scanner sc) {
+
+        if (garcons.size() == 0) {
+            System.out.println("Cadastre pelo menos um garom");
+            return;
+        }
+
         System.out.println("Entre com número da mesa: ");
         int numeroMesa = Integer.parseInt(sc.nextLine());
 
-        System.out.println("Entre com a Situação da mesa: ");
+
+        for (int i = 0; i < mesas.size(); i++){
+            Mesa mesavetor = mesas.get(i);
+
+            if (numeroMesa == mesavetor.getNumMesa()){
+                System.out.println("Mesa já Cadastrada!! ");
+                return;
+            }
+        }
+
+
+        System.out.println("Entre com a Situação da mesa =  Livre, Ocupada ou Reservada :");
         String situacaoMesa = sc.nextLine();
 
         System.out.println("Entre com a capacidade de clientes da mesa: ");
         int capacidadeMesa = Integer.parseInt(sc.nextLine());
 
-        System.out.println("Entre com o garçom responsável: ");
-        Garcom responsavelMesa = new Garcom();     //verificar
+        System.out.println("Entre com o código do garçom responsável: ");
+        int codigoGarcom = Integer.parseInt(sc.nextLine());
+        boolean achouGarcom = false;
+        for (int i = 0; i < garcons.size(); i++) {
+            Garcom garcomVetor = garcons.get(i);
 
-        for(int i=0; i < garcons.size(); i++) {
-           Garcom garcomVetor = garcons.get(i);
+            if (codigoGarcom == garcomVetor.getCodigo()) {
 
-            if (responsavelMesa.getNome() != garcomVetor.getNome()){
-                System.out.println("Garçom não cadastrado, cadastre o Garçom primeiro");
-                mostraMenu();
-
-            }
-            else {
-                Mesa mesa = new Mesa(numeroMesa,situacaoMesa,capacidadeMesa,responsavelMesa);
+                Mesa mesa = new Mesa(numeroMesa, situacaoMesa, capacidadeMesa, garcomVetor);
+                mesas.add(mesa);
+                achouGarcom = true;
+                break;
             }
         }
 
-
-
-
-
+        if (!achouGarcom) {
+            System.out.println("Garçom não cadastrado, cadastre o Garçom primeiro");
+        }
     }
 
 
-    private static void removeGarcom(Scanner sc, ArrayList<Garcom> garcons) {
-        System.out.println("Digite o nome do Garçom para remover: ");
-        String nome = sc.nextLine();
-            for(int i=0; i < garcons.size(); i++) {
-                Garcom garcomVetor = garcons.get(i);
+    private static void removeGarcom(Scanner sc) {
+        System.out.println("Digite o código do Garçom para remover: ");
+        int codigoGarcom = Integer.parseInt(sc.nextLine());
+        boolean achou = false;
 
-                if (garcomVetor.getNome() == nome){
-                    garcons.remove(i);
-                }
-                else {
-                    System.out.println("Garçom não cadastrado");
-                    mostraMenu();
-                }
+        for (int i = 0; i < garcons.size(); i++) {
+            Garcom garcomVetor = garcons.get(i);
+
+            if (garcomVetor.getCodigo() == codigoGarcom) {
+                garcons.remove(i);
+                achou = true;
+                break;
             }
+        }
 
+        if (!achou) {
+            System.out.println("Garçom não cadastrado");
+        }
     }
 
-    private static void cadastrarGarcom (Scanner sc, ArrayList<Garcom> garcons) {
+    private static void cadastrarGarcom(Scanner sc) {
+        System.out.println("Entre com o Código do Garçom: ");
+        int codigoGarcom = Integer.parseInt(sc.nextLine());
+
         System.out.println("Entre com Nome do Garçom: ");
         String nome = sc.nextLine();
 
@@ -96,17 +120,17 @@ public class TesteProjetoFinal {
         String email = sc.nextLine();
 
         System.out.println("Entre como  sexo (Masculino ou Feminino): ");
-        String sexo =sc.nextLine();
+        String sexo = sc.nextLine();
 
         System.out.println("Entre com o salário: ");
         double salario = Double.parseDouble(sc.nextLine());
 
-        Garcom garcom = new Garcom(nome,CPF,dataNascimento,email,sexo,salario);
-        garcons.add (garcom);
+        Garcom garcom = new Garcom(codigoGarcom, nome, CPF, dataNascimento, email, sexo, salario);
+        garcons.add(garcom);
 
     }
 
-    private static void mostraMenu(){
+    private static void mostraMenu() {
         System.out.println("Menu");
         System.out.println("1: Cadastrar Garçon ");
         System.out.println("2: Remover Garçon ");

@@ -1,6 +1,7 @@
 package dominio;
 
 public class Garcom {
+    private int codigo;
     private String nome;
     private String CPF;
     private String dataNascimento;
@@ -12,13 +13,22 @@ public class Garcom {
 
     }
 
-    public Garcom(String nome, String CPF, String dataNascimento, String email, String sexo, double salario) {
+    public Garcom(int codigo, String nome, String CPF, String dataNascimento, String email, String sexo, double salario) {
+        this.codigo = codigo;
         this.nome = nome;
         this.CPF = CPF;
         this.dataNascimento = dataNascimento;
         this.email = email;
         this.sexo = sexo;
         this.salario = salario;
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
     public String getNome() {
