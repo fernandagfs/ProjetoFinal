@@ -29,11 +29,201 @@ public class TesteProjetoFinal {
                 case 3:
                     cadastrarMesa(sc);
                     break;
+                case 4:
+                    removeMesa(sc);
+                    break;
+                case 5:
+                    realizaAtendimento(sc);
+                    break;
+                case 6:
+                    buscarMesaNum(sc);
+                    break;
+                case 7:
+                    buscarMesaCap (sc);
+                    break;
+                case 8:
+                    buscarMesaGarcom (sc);
+                    break;
 
 
             }
         }
     }
+
+    private static void buscarMesaGarcom(Scanner sc) {
+        System.out.println("Digite o Código do garçom  da mesa que  deseja localizar: ");
+        int codigoGarcom = Integer.parseInt(sc.nextLine());
+
+        for (int i = 0; i < mesas.size(); i++) {
+            Mesa mesaVetor = mesas.get(i);
+            if (mesaVetor.getGarcom() == codigoGarcom ) { //ver como vamos localizar pelo codigo
+                System.out.println(mesas.get(i));  /// verificar o tostring
+            }
+            else {
+                System.out.println("Não tem mesa compativel com a quantidade solicidada  ");
+            }
+
+        }
+
+    }
+
+    private static void buscarMesaCap(Scanner sc) {
+        System.out.println("Digite a quantidade da capacidade da mesa que  deseja localizar: ");
+        int capacidadeMesa = Integer.parseInt(sc.nextLine());
+
+        for (int i = 0; i < mesas.size(); i++) {
+            Mesa mesaVetor = mesas.get(i);
+            if (mesaVetor.getCapacidade() == capacidadeMesa && mesaVetor.getCapacidade() > capacidadeMesa) {
+                System.out.println(mesas.get(i));  /// verificar o tostring
+            }
+            else {
+                System.out.println("Não tem mesa compativel com a quantidade solicidada  ");
+            }
+
+        }
+
+    }
+
+    private static void buscarMesaNum(Scanner sc) {
+        System.out.println("Digite o número da mesa deseja localizar: ");
+        int numeroMesa = Integer.parseInt(sc.nextLine());
+
+        for (int i = 0; i < mesas.size(); i++) {
+            Mesa mesaVetor = mesas.get(i);
+            if (mesaVetor.getNumMesa() == numeroMesa) {
+                System.out.println(mesaVetor.getNumMesa());  /// verificar o tostring
+            }
+            else {
+                System.out.println("Mesa não cadastrada");
+            }
+
+        }
+    }
+
+
+    private static void realizaAtendimento(Scanner sc) {
+        // 7.1: Reservar mesa
+        // 7.2: Atender mesa
+        // 7.3: Fechar mesa
+        System.out.println("Digite a opção desejada: ");
+        System.out.println("1: Reservar Mesa ");
+        System.out.println("2: Atender Mesa ");
+        System.out.println("3: Fechar Mesa ");
+
+        int opcao = Integer.parseInt(sc.nextLine());
+
+        switch (opcao) {
+            case 1: //reservar
+                System.out.println("Digite o número da mesa para reservar: ");
+                int numeroMesa = Integer.parseInt(sc.nextLine());
+
+                for (int i = 0; i < mesas.size(); i++) {
+                    Mesa mesaVetor = mesas.get(i);
+                    if (mesaVetor.getNumMesa() == numeroMesa) {
+                        if (mesaVetor.getSituacao().equalsIgnoreCase("Livre")) {
+                            mesaVetor.setSituacao("Reservada");
+                            System.out.println("Mesa reservada com sucesso!!");
+
+                        } else if (mesaVetor.getSituacao().equalsIgnoreCase("Ocupada")) {
+                            System.out.println("Mesa está ocupada ");
+
+                        } else if (mesaVetor.getSituacao().equalsIgnoreCase("Reservada")) {
+                            System.out.println("Mesa já tem reserva cadastrada");
+                        } else {
+                            System.out.println("Verificar Situação da mesa no cadastro: ");
+                        }
+                    }
+                }
+                break;
+            case 2: //atender
+                System.out.println("Digite o número da mesa para registrar Atendimento: ");
+                int numeroMesa2 = Integer.parseInt(sc.nextLine());
+
+
+                for (int i = 0; i < mesas.size(); i++) {
+                    Mesa mesaVetor = mesas.get(i);
+                    if (mesaVetor.getNumMesa() == numeroMesa2) {
+                        if (mesaVetor.getSituacao().equalsIgnoreCase("Livre")) {
+                            mesaVetor.setSituacao("Ocupada");
+                            System.out.println("Mesa Ocupada com sucesso!!");
+
+                        } else if (mesaVetor.getSituacao().equalsIgnoreCase("Reservada")) {
+                            System.out.println("Mesa já tem reserva cadastrada, deseja registrar atendimento? ");
+                            System.out.println("Sim ou Não");
+                            String opcao2 = sc.nextLine();
+                            if (opcao2.equalsIgnoreCase("Sim")) {
+                                mesaVetor.setSituacao("Ocupada");
+                                System.out.println("Mesa Ocupada com sucesso!!");
+                            } else {
+                                break;
+                            }
+                        } else if (mesaVetor.getSituacao().equalsIgnoreCase("Ocupada")) {
+                            System.out.println("Mesa situação de ocupada, deseja registrar atendimento? ");
+                            System.out.println("Sim ou Não");
+                            String opcao2 = sc.nextLine();
+                            if (opcao2.equalsIgnoreCase("Sim")) {
+                                mesaVetor.setSituacao("Ocupada");
+                                System.out.println("Mesa Ocupada com sucesso!!");
+                            } else {
+                                break; // ou retarn
+                            }
+                        }
+                    }
+                }
+                break;
+            case 3: //fechar
+                System.out.println("Digite o número da mesa para registrar fechamento: ");
+                int numeroMesa3 = Integer.parseInt(sc.nextLine());
+
+                for (int i = 0; i < mesas.size(); i++) {
+                    Mesa mesaVetor = mesas.get(i);
+                    if (mesaVetor.getNumMesa() == numeroMesa3) {
+                        if (mesaVetor.getSituacao().equalsIgnoreCase("Ocupada")) {
+                            mesaVetor.setSituacao("Livre");
+                            System.out.println("Mesa Fechada com sucesso, está livre para novos clientes!!");
+
+                        } else if (mesaVetor.getSituacao().equalsIgnoreCase("Livre")) {
+                            System.out.println("Mesa não teve atendimento registrado! ");
+
+                        } else if (mesaVetor.getSituacao().equalsIgnoreCase("Reservada")) {
+                            System.out.println("Mesa já tem reserva cadastrada, deseja cancelar a reserva? ");
+                            System.out.println("Sim ou Não");
+                            String opcao2 = sc.nextLine();
+                            if (opcao2.equalsIgnoreCase("Sim")) {
+                                mesaVetor.setSituacao("Livre");
+                                System.out.println("Cancelamento da Reserva com sucesso!!");
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+                break;
+
+        }
+    }
+
+
+    private static void removeMesa(Scanner sc) {
+        System.out.println("Digite o número da mesa para remover: ");
+        int numeroMesa = Integer.parseInt(sc.nextLine());
+        boolean achou = false;
+
+        for (int i = 0; i < mesas.size(); i++) {
+            Mesa mesaVetor = mesas.get(i);
+
+            if (mesaVetor.getNumMesa() == numeroMesa) {
+                mesas.remove(i);
+                achou = true;
+                break;
+            }
+        }
+
+        if (!achou) {
+            System.out.println("Mesa não cadastrada");
+        }
+    }
+
 
     private static void cadastrarMesa(Scanner sc) {
 
@@ -46,10 +236,10 @@ public class TesteProjetoFinal {
         int numeroMesa = Integer.parseInt(sc.nextLine());
 
 
-        for (int i = 0; i < mesas.size(); i++){
+        for (int i = 0; i < mesas.size(); i++) {
             Mesa mesavetor = mesas.get(i);
 
-            if (numeroMesa == mesavetor.getNumMesa()){
+            if (numeroMesa == mesavetor.getNumMesa()) {
                 System.out.println("Mesa já Cadastrada!! ");
                 return;
             }

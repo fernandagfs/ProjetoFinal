@@ -49,4 +49,12 @@ public class Mesa {
         this.garcom = garcom;
     }
 
+    @Override
+    public String toString() {
+        return "Mesa: " +
+                "numMesa= " + numMesa +
+                ", situacao= '" + situacao + '\'' +
+                ", capacidade= " + capacidade +
+                ", garcom= " + garcom ;
+    }
 }

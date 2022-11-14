@@ -78,5 +78,17 @@ public class Garcom {
     public void setSalario(double salario) {
         this.salario = salario;
     }
+
+    @Override
+    public String toString() {
+        return "Garcom: " +
+                "Codigo= " + codigo +
+                ", Nome= '" + nome + '\'' +
+                ", CPF= '" + CPF + '\'' +
+                ", Data de Nascimento= '" + dataNascimento + '\'' +
+                ", e-mail= '" + email + '\'' +
+                ", Sexo= '" + sexo + '\'' +
+                ", Salario= " + salario ;
+    }
 }
 
