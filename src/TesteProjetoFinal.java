@@ -13,7 +13,7 @@ public class TesteProjetoFinal {
         Scanner sc = new Scanner(System.in);
         int opcao = 0;
 
-        while (opcao != 13) {
+        while (opcao != 11) {
 
             mostraMenu();
             System.out.println("Entre com a opção desejada: ");
@@ -39,10 +39,10 @@ public class TesteProjetoFinal {
                     buscarMesaNum(sc);
                     break;
                 case 7:
-                    buscarMesaCap (sc);
+                    buscarMesaCap(sc);
                     break;
                 case 8:
-                    buscarMesaGarcom (sc);
+                    buscarMesaGarcom(sc);
                     break;
 
 
@@ -56,15 +56,18 @@ public class TesteProjetoFinal {
 
         for (int i = 0; i < mesas.size(); i++) {
             Mesa mesaVetor = mesas.get(i);
-            if (mesaVetor.getGarcom() == codigoGarcom ) { //ver como vamos localizar pelo codigo
-                System.out.println(mesas.get(i));  /// verificar o tostring
+            if (mesaVetor.getGarcom().getCodigo() == codigoGarcom ) {
+                System.out.println("Número Mesa: " + mesaVetor.getNumMesa() + "\n" +
+                        "Situação: " + mesaVetor.getSituacao() + "\n" +
+                        "Capacidade: " + mesaVetor.getCapacidade() + "\n" +
+                        "Nome Garçom: " + mesaVetor.getGarcom().getNome() + "\n" +
+                        "Código Garçom: " + mesaVetor.getGarcom().getCodigo() + "\n");
+                break;
             }
             else {
-                System.out.println("Não tem mesa compativel com a quantidade solicidada  ");
-            }
-
+             System.out.println("Não tem mesa cadastrada para o Garçom solicitado  ");
+             }
         }
-
     }
 
     private static void buscarMesaCap(Scanner sc) {
@@ -73,15 +76,18 @@ public class TesteProjetoFinal {
 
         for (int i = 0; i < mesas.size(); i++) {
             Mesa mesaVetor = mesas.get(i);
-            if (mesaVetor.getCapacidade() == capacidadeMesa && mesaVetor.getCapacidade() > capacidadeMesa) {
-                System.out.println(mesas.get(i));  /// verificar o tostring
-            }
-            else {
+            if (mesaVetor.getCapacidade() >= capacidadeMesa) {
+                System.out.println("Número Mesa: " + mesaVetor.getNumMesa() + "\n" +
+                        "Situação: " + mesaVetor.getSituacao() + "\n" +
+                        "Capacidade: " + mesaVetor.getCapacidade() + "\n" +
+                        "Nome Garçom: " + mesaVetor.getGarcom().getNome() + "\n" +
+                        "Código Garçom: "+ mesaVetor.getGarcom().getCodigo() + "\n");
+                break;
+
+            } else {
                 System.out.println("Não tem mesa compativel com a quantidade solicidada  ");
             }
-
         }
-
     }
 
     private static void buscarMesaNum(Scanner sc) {
@@ -91,9 +97,13 @@ public class TesteProjetoFinal {
         for (int i = 0; i < mesas.size(); i++) {
             Mesa mesaVetor = mesas.get(i);
             if (mesaVetor.getNumMesa() == numeroMesa) {
-                System.out.println(mesaVetor.getNumMesa());  /// verificar o tostring
-            }
-            else {
+                System.out.println("Número Mesa: " + mesaVetor.getNumMesa() + "\n" +
+                        "Situação: " + mesaVetor.getSituacao() + "\n" +
+                        "Capacidade: " + mesaVetor.getCapacidade() + "\n" +
+                        "Nome Garçom: " + mesaVetor.getGarcom().getNome() + "\n" +
+                        "Código Garçom: "+ mesaVetor.getGarcom().getCodigo() + "\n");
+                break;
+            } else {
                 System.out.println("Mesa não cadastrada");
             }
 

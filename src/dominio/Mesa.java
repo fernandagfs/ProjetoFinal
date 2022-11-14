@@ -55,6 +55,7 @@ public class Mesa {
                 "numMesa= " + numMesa +
                 ", situacao= '" + situacao + '\'' +
                 ", capacidade= " + capacidade +
-                ", garcom= " + garcom ;
+                ", Nome Garçom= " + getGarcom().getNome() +
+                ", Código Garcom= " + getGarcom().getCodigo();
     }
 }
