@@ -47,9 +47,33 @@ public class TesteProjetoFinal {
                 case 9:
                     gerarRelatorios(sc);
                     break;
+                case 10:
+                    qtdMesaGarcom(sc);
+                    break;
+                case 11:
+                default:
+                    System.out.println("Encerrando o programa...");
 
 
             }
+        }
+    }
+
+    private static void qtdMesaGarcom(Scanner sc) {
+        System.out.println("Digite o código do Garçom:");
+        int codigoGarcom = Integer.parseInt(sc.nextLine());
+        int contagem = 0;
+
+        for (int i = 0; i < mesas.size(); i++) {
+            Mesa mesaVetor = mesas.get(i);
+            if (mesaVetor.getGarcom().getCodigo() == codigoGarcom && mesaVetor.getSituacao().equalsIgnoreCase("Ocupada")) {
+                contagem++;
+            } else {
+                System.out.println("Não exite atendimento para esse Garçom !");
+                return;
+            }
+            System.out.println("O Garçom " + mesaVetor.getGarcom().getCodigo() + ": " + mesaVetor.getGarcom().getNome() +
+                    " tem " + contagem + " atendimento(s)");
         }
     }
 
@@ -133,7 +157,7 @@ public class TesteProjetoFinal {
                                 "Situação: " + mesaVetor.getSituacao() + "\n" +
                                 "Código Garçom: " + mesaVetor.getGarcom().getCodigo() + "\n" +
                                 "Nome do Garçom: " + mesaVetor.getGarcom().getNome() + "\n");
-                                                    // esta aparecendo a mensagem else
+                        // esta aparecendo a mensagem else
                     } else {
                         System.out.println("Não exite mesa cadastra para o Garçom solicitado!");
                         return;
@@ -453,16 +477,16 @@ public class TesteProjetoFinal {
         System.out.println("5: Atendimento ");
         // 7.1: Reservar mesa ok
         // 7.2: Atender mesa ok
-        // 7.3: Fechar mesaok
+        // 7.3: Fechar mesa ok
         System.out.println("6: Buscar Mesa pelo Número ");
         System.out.println("7: Buscar Mesa pela Capacidade ");
         System.out.println("8: Buscar Mesas pelo Garçom ");
         System.out.println("9:Relatórios ");
-        //11.1 :Relatório de Mesas Livres
-        //11.2: Relatório de Mesas Ocupadas
-        //11.3: Relatório de Mesas Reservadas
-        //11.4: Relatório de todas Mesas atendidas pelo garçom
-        //11.5: Relatório de todas as mesas em atendimento do Garçom
+        //11.1 :Relatório de Mesas Livres ok
+        //11.2: Relatório de Mesas Ocupadas ok
+        //11.3: Relatório de Mesas Reservadas ok
+        //11.4: Relatório de todas Mesas atendidas pelo garçom ok
+        //11.5: Relatório de todas as mesas em atendimento do Garçom ok
         System.out.println("10:Quantidade de Mesas está sendo atendidas pelo garçom");
         System.out.println("11: Sair do programa");
         // ler opcao do menu
