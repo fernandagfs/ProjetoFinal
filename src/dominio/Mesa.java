@@ -5,12 +5,12 @@ public class Mesa {
     private int numMesa;
     private String situacao;
     private int capacidade;
-    private Garcom garcom;
+    private Pessoa garcom;
 
     public Mesa() {
     }
 
-    public Mesa(int numMesa, String situacao, int capacidade, Garcom garcom) {
+    public Mesa(int numMesa, String situacao, int capacidade, Pessoa garcom) {
         this.numMesa = numMesa;
         this.situacao = situacao;
         this.capacidade = capacidade;
@@ -41,11 +41,11 @@ public class Mesa {
         this.capacidade = capacidade;
     }
 
-    public Garcom getGarcom() {
+    public Pessoa getGarcom() {
         return garcom;
     }
 
-    public void setGarcom(Garcom garcom) {
+    public void setGarcom(Pessoa garcom) {
         this.garcom = garcom;
     }
 

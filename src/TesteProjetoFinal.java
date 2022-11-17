@@ -1,19 +1,19 @@
 import dominio.Garcom;
+import dominio.Pessoa;
 import dominio.Mesa;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TesteProjetoFinal {
     private static ArrayList<Mesa> mesas = new ArrayList<>();
-    private static ArrayList<Garcom> garcons = new ArrayList<>();
+    private static ArrayList<Pessoa> garcons = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int opcao = 0;
 
-        while (opcao != 11) {
+        while (opcao != 12) {
 
             mostraMenu();
             System.out.println("Entre com a opção desejada: ");
@@ -33,24 +33,27 @@ public class TesteProjetoFinal {
                     removeMesa(sc);
                     break;
                 case 5:
-                    realizaAtendimento(sc);
+                    alterarGarcomMesa (sc);
                     break;
                 case 6:
-                    buscarMesaNum(sc);
+                    realizaAtendimento(sc);
                     break;
                 case 7:
-                    buscarMesaCap(sc);
+                    buscarMesaNum(sc);
                     break;
                 case 8:
-                    buscarMesaGarcom(sc);
+                    buscarMesaCap(sc);
                     break;
                 case 9:
-                    gerarRelatorios(sc);
+                    buscarMesaGarcom(sc);
                     break;
                 case 10:
-                    qtdMesaGarcom(sc);
+                    gerarRelatorios(sc);
                     break;
                 case 11:
+                    qtdMesaGarcom(sc);
+                    break;
+                case 12:
                 default:
                     System.out.println("Encerrando o programa...");
 
@@ -58,6 +61,8 @@ public class TesteProjetoFinal {
             }
         }
     }
+
+
 
     private static void qtdMesaGarcom(Scanner sc) {
         System.out.println("Digite o código do Garçom:");
@@ -84,53 +89,71 @@ public class TesteProjetoFinal {
         System.out.println("3: Relatório de mesas reservadas: ");
         System.out.println("4: Relatório de todas as mesas em atendimento do Garçom");
         System.out.println("5: Relatório de mesas todas atendidas pelo Garçom: ");
+        System.out.println("6: Voltar para menu anterior! ");
 
         int opcao = Integer.parseInt(sc.nextLine());
 
         switch (opcao) {
             case 1:
+                boolean achou = false;
                 for (int i = 0; i < mesas.size(); i++) {
                     Mesa mesaVetor = mesas.get(i);
+
                     if (mesaVetor.getSituacao().equalsIgnoreCase("Livre")) {
                         System.out.println("Número da mesa: " + mesaVetor.getNumMesa() + "\n" +
                                 "Código Garçom: " + mesaVetor.getGarcom().getCodigo() + "\n" +
                                 "Nome do Garçom: " + mesaVetor.getGarcom().getNome() + "\n");
-
-                    } else {
-                        System.out.println("Não exite mesa Livre no momento");
-                        return;
+                        achou = true;
                     }
                 }
+
+                    if (!achou) {
+                        System.out.println("Não tem mesa Livre no momento...  ");
+                        return;
+                    }
                 break;
             case 2:
+                 achou = false;
+
                 for (int i = 0; i < mesas.size(); i++) {
                     Mesa mesaVetor = mesas.get(i);
+
                     if (mesaVetor.getSituacao().equalsIgnoreCase("Ocupada")) {
                         System.out.println("Número da mesa: " + mesaVetor.getNumMesa() + "\n" +
                                 "Código Garçom: " + mesaVetor.getGarcom().getCodigo() + "\n" +
                                 "Nome do Garçom: " + mesaVetor.getGarcom().getNome() + "\n");
-
-                    } else {
-                        System.out.println("Não existe mesa Ocupada no momento");
-                        return;
+                        achou = true;
                     }
                 }
+                    if (!achou) {
+                        System.out.println("Não tem mesa Ocupada no momento... ");
+                        return;
+                    }
+
                 break;
             case 3:
+                 achou = false;
+
                 for (int i = 0; i < mesas.size(); i++) {
                     Mesa mesaVetor = mesas.get(i);
+
                     if (mesaVetor.getSituacao().equalsIgnoreCase("Reservada")) {
                         System.out.println("Número da mesa: " + mesaVetor.getNumMesa() + "\n" +
                                 "Código Garçom: " + mesaVetor.getGarcom().getCodigo() + "\n" +
                                 "Nome do Garçom: " + mesaVetor.getGarcom().getNome() + "\n");
 
-                    } else {
-                        System.out.println("Não exite mesa Reservada no momento!");
-                        return;
+                        achou = true;
                     }
                 }
+
+                    if (!achou) {
+                        System.out.println("Não tem mesa Reservada no momento... ");
+                        return;
+                    }
+
                 break;
             case 4:
+              achou = false;
                 System.out.println("Digite o código do Garçom:");
                 int codigoGarcom = Integer.parseInt(sc.nextLine());
 
@@ -140,15 +163,18 @@ public class TesteProjetoFinal {
                         System.out.println("Número da mesa: " + mesaVetor.getNumMesa() + "\n" +
                                 "Código Garçom: " + mesaVetor.getGarcom().getCodigo() + "\n" +
                                 "Nome do Garçom: " + mesaVetor.getGarcom().getNome() + "\n");
-                    } else {
-                        System.out.println("Não exite mesa em atendimento  para o Garçom solicitado!");
-                        return;
+                        achou = true;
                     }
+                }
+                if (!achou) {
+                    System.out.println("Não exite mesa em atendimento  para o Garçom solicitado!");
+                    return;
                 }
                 break;
             case 5:
                 System.out.println("Digite o código do Garçom:");
                 int codigoGarcom2 = Integer.parseInt(sc.nextLine());
+                boolean achou2 = false;
 
                 for (int i = 0; i < mesas.size(); i++) {
                     Mesa mesaVetor = mesas.get(i);
@@ -157,22 +183,28 @@ public class TesteProjetoFinal {
                                 "Situação: " + mesaVetor.getSituacao() + "\n" +
                                 "Código Garçom: " + mesaVetor.getGarcom().getCodigo() + "\n" +
                                 "Nome do Garçom: " + mesaVetor.getGarcom().getNome() + "\n");
-                        // esta aparecendo a mensagem else
-                    } else {
-                        System.out.println("Não exite mesa cadastra para o Garçom solicitado!");
-                        return;
+                        achou2 = true;
                     }
                 }
+                if (!achou2) {
+                    System.out.println("Não tem mesa cadastrada para o Garçom solicitado  ");
+                    return;
+                }
                 break;
+            case 6:
+            default:
+                System.out.println();
         }
     }
 
     private static void buscarMesaGarcom(Scanner sc) {
-        System.out.println("Digite o Código do garçom  da mesa que  deseja localizar: ");
+        System.out.println("Digite o Código do garçom : ");
         int codigoGarcom = Integer.parseInt(sc.nextLine());
+        boolean achou = false;
 
         for (int i = 0; i < mesas.size(); i++) {
             Mesa mesaVetor = mesas.get(i);
+
             if (mesaVetor.getGarcom().getCodigo() == codigoGarcom) {
                 System.out.println("Número Mesa: " + mesaVetor.getNumMesa() + "\n" +
                         "Situação: " + mesaVetor.getSituacao() + "\n" +
@@ -180,37 +212,44 @@ public class TesteProjetoFinal {
                         "Nome Garçom: " + mesaVetor.getGarcom().getNome() + "\n" +
                         "Código Garçom: " + mesaVetor.getGarcom().getCodigo() + "\n");
 
-            } else {
+                achou = true;
+            }
+        }
+            if (!achou) {
                 System.out.println("Não tem mesa cadastrada para o Garçom solicitado  ");
                 return;
             }
-        }
     }
 
     private static void buscarMesaCap(Scanner sc) {
         System.out.println("Digite a quantidade da capacidade da mesa que  deseja localizar: ");
         int capacidadeMesa = Integer.parseInt(sc.nextLine());
+        boolean achou = false;
 
         for (int i = 0; i < mesas.size(); i++) {
             Mesa mesaVetor = mesas.get(i);
-            if (mesaVetor.getCapacidade() >= capacidadeMesa) {
+            if (mesaVetor.getCapacidade() >= capacidadeMesa &&
+                    mesaVetor.getSituacao().equalsIgnoreCase("Livre")) {
                 System.out.println("Número Mesa: " + mesaVetor.getNumMesa() + "\n" +
-                        "Situação: " + mesaVetor.getSituacao() + "\n" +
                         "Capacidade: " + mesaVetor.getCapacidade() + "\n" +
                         "Nome Garçom: " + mesaVetor.getGarcom().getNome() + "\n" +
                         "Código Garçom: " + mesaVetor.getGarcom().getCodigo() + "\n");
+                achou = true;
 
-
-            } else {
-                System.out.println("Não tem mesa compativel com a quantidade solicidada  ");
-                return;
             }
         }
+
+        if (!achou) {
+            System.out.println("Não tem mesa disponivel pela capacidade. ");
+            return;
+        }
     }
+
 
     private static void buscarMesaNum(Scanner sc) {
         System.out.println("Digite o número da mesa deseja localizar: ");
         int numeroMesa = Integer.parseInt(sc.nextLine());
+        boolean achou = false;
 
         for (int i = 0; i < mesas.size(); i++) {
             Mesa mesaVetor = mesas.get(i);
@@ -220,12 +259,14 @@ public class TesteProjetoFinal {
                         "Capacidade: " + mesaVetor.getCapacidade() + "\n" +
                         "Nome Garçom: " + mesaVetor.getGarcom().getNome() + "\n" +
                         "Código Garçom: " + mesaVetor.getGarcom().getCodigo() + "\n");
-                return;
-            } else {
-                System.out.println("Mesa não cadastrada");
-                return;
+                achou = true;
+                break;
             }
+        }
 
+        if (!achou) {
+            System.out.println("Mesa não cadastrada");
+            return;
         }
     }
 
@@ -238,6 +279,7 @@ public class TesteProjetoFinal {
         System.out.println("1: Reservar Mesa ");
         System.out.println("2: Atender Mesa ");
         System.out.println("3: Fechar Mesa ");
+        System.out.println("4: Voltar para menu anterior! ");
 
         int opcao = Integer.parseInt(sc.nextLine());
 
@@ -331,10 +373,47 @@ public class TesteProjetoFinal {
                     }
                 }
                 break;
+            case 4:
+            default:
+                System.out.println();
 
         }
     }
+    private static void alterarGarcomMesa(Scanner sc) {
+        System.out.println("Digite o número da mesa para alterar : ");
+        int numeroMesa = Integer.parseInt(sc.nextLine());
+        boolean achou = false;
 
+        for (int i = 0; i < mesas.size(); i++) {
+            Mesa mesaVetor = mesas.get(i);
+            if (mesaVetor.getNumMesa() == numeroMesa){
+                System.out.println("Entre com o código do novo garçom responsavel pela mesa ");
+                int codigoGarcom2 = Integer.parseInt(sc.nextLine());
+
+                achou = false;
+
+                for (int j = 0; j < garcons.size(); j++) {
+                    Pessoa garcomVetor2 = garcons.get(j);
+
+                    if (codigoGarcom2 == garcomVetor2.getCodigo()) {
+                        mesaVetor.setGarcom(garcomVetor2);
+
+
+                        System.out.println("Alteração de Garçom realizada com sucesso!!");
+
+                        achou= true;
+                        break;
+                    }
+                }
+                if (!achou) {
+                    System.out.println("Garçom não cadastrado");
+                }
+            }
+        }
+        if (!achou) {
+            System.out.println("Mesa não cadastrada");
+        }
+    }
 
     private static void removeMesa(Scanner sc) {
         System.out.println("Digite o número da mesa para remover: ");
@@ -344,11 +423,15 @@ public class TesteProjetoFinal {
         for (int i = 0; i < mesas.size(); i++) {
             Mesa mesaVetor = mesas.get(i);
 
-            if (mesaVetor.getNumMesa() == numeroMesa) {
+
+            if (mesaVetor.getNumMesa() == numeroMesa &&
+                    mesaVetor.getSituacao().equalsIgnoreCase("livre")) {
                 mesas.remove(i);
                 System.out.println("Mesa removida com sucesso!");
                 achou = true;
                 break;
+            } else {
+                System.out.println("Mesa está com status de Ocupada ou Reservada, fazer o fechamento antes de excluir");
             }
         }
 
@@ -377,10 +460,7 @@ public class TesteProjetoFinal {
                 return;
             }
         }
-
-
-        System.out.println("Entre com a Situação da mesa =  Livre, Ocupada ou Reservada :");
-        String situacaoMesa = sc.nextLine();
+        String situacaoMesa = "livre";
 
         System.out.println("Entre com a capacidade de clientes da mesa: ");
         int capacidadeMesa = Integer.parseInt(sc.nextLine());
@@ -389,7 +469,7 @@ public class TesteProjetoFinal {
         int codigoGarcom = Integer.parseInt(sc.nextLine());
         boolean achouGarcom = false;
         for (int i = 0; i < garcons.size(); i++) {
-            Garcom garcomVetor = garcons.get(i);
+            Pessoa garcomVetor = garcons.get(i);
 
             if (codigoGarcom == garcomVetor.getCodigo()) {
 
@@ -408,24 +488,43 @@ public class TesteProjetoFinal {
     }
 
 
-    private static void removeGarcom(Scanner sc) {
+    private static void removeGarcom(Scanner sc) { //pensar sobre remover.....
         System.out.println("Digite o código do Garçom para remover: ");
         int codigoGarcom = Integer.parseInt(sc.nextLine());
         boolean achou = false;
 
-        for (int i = 0; i < garcons.size(); i++) {
-            Garcom garcomVetor = garcons.get(i);
+        for (int i = 0; i < garcons.size(); i++){
+            Pessoa garcomdeletar = garcons.get(i);
 
-            if (garcomVetor.getCodigo() == codigoGarcom) {
-                garcons.remove(i);
-                System.out.println("Garçom removido com sucesso!!");
-                achou = true;
-                break;
+            if (garcomdeletar.getCodigo() == codigoGarcom){ //verifica se o codigo do garçom está no bd de garçom
+                System.out.println("Digite o código do novo garçom!");
+                int codigoGarcom2 = Integer.parseInt(sc.nextLine());
+
+
+                for (int j = 0; j < garcons.size(); j++) {
+                    Pessoa garcomVetor2 = garcons.get(j);
+
+                    if (codigoGarcom2 == garcomVetor2.getCodigo()) {  // verifica se o novo garçom esta cadastrado
+                        garcons.remove(garcomdeletar);  // remove o garçom antigo do bd da lista de garçom
+
+                        for (int n = 0; n < mesas.size(); n ++) {
+                            Mesa mesavetor = mesas.get(i);
+
+                            if (mesavetor.getGarcom().getCodigo() == codigoGarcom) {  //verifica se o codi do antigo garçom para substituir para novo
+                                mesavetor.setGarcom(garcomVetor2);
+
+                                System.out.println("Alteração de Garçom realizada com sucesso!!");
+
+                                achou = true;
+                            }
+                        }
+                    }
+                }
+
+                if (!achou) {
+                    System.out.println("Para fazer a alteração, cadastre o novo garçom primeiro");
+                }
             }
-        }
-
-        if (!achou) {
-            System.out.println("Garçom não cadastrado");
         }
     }
 
@@ -434,7 +533,7 @@ public class TesteProjetoFinal {
         int codigoGarcom = Integer.parseInt(sc.nextLine());
 
         for (int i = 0; i < garcons.size(); i++) {
-            Garcom garcomVetor = garcons.get(i);
+            Pessoa garcomVetor = garcons.get(i);
 
             if (garcomVetor.getCodigo() == codigoGarcom) {
                 System.out.println("Código já cadastrado");
@@ -461,7 +560,7 @@ public class TesteProjetoFinal {
         System.out.println("Entre com o salário: ");
         double salario = Double.parseDouble(sc.nextLine());
 
-        Garcom garcom = new Garcom(codigoGarcom, nome, CPF, dataNascimento, email, sexo, salario);
+        Pessoa garcom = new Garcom(codigoGarcom, nome, CPF, dataNascimento, email, sexo, salario);
         garcons.add(garcom);
         System.out.println("Garçom cadastrado com sucesso!!");
 
@@ -474,29 +573,22 @@ public class TesteProjetoFinal {
         System.out.println("2: Remover Garçon ");
         System.out.println("3: Cadastrar Mesa ");
         System.out.println("4: Remover Mesa ");
-        System.out.println("5: Atendimento ");
+        System.out.println("5: Alterar Garçom da Mesa ");
+        System.out.println("6: Atendimento ");
         // 7.1: Reservar mesa ok
         // 7.2: Atender mesa ok
         // 7.3: Fechar mesa ok
-        System.out.println("6: Buscar Mesa pelo Número ");
-        System.out.println("7: Buscar Mesa pela Capacidade ");
-        System.out.println("8: Buscar Mesas pelo Garçom ");
-        System.out.println("9:Relatórios ");
+        System.out.println("7: Buscar Mesa pelo Número ");
+        System.out.println("8: Buscar Mesa pela Capacidade ");
+        System.out.println("9: Buscar Mesas pelo Garçom ");
+        System.out.println("10:Relatórios ");
         //11.1 :Relatório de Mesas Livres ok
         //11.2: Relatório de Mesas Ocupadas ok
         //11.3: Relatório de Mesas Reservadas ok
         //11.4: Relatório de todas Mesas atendidas pelo garçom ok
         //11.5: Relatório de todas as mesas em atendimento do Garçom ok
-        System.out.println("10:Quantidade de Mesas está sendo atendidas pelo garçom");
-        System.out.println("11: Sair do programa");
-        // ler opcao do menu
-        // exemplo: se for op == 1
-        // chamar funcao para cadastrar garcom
-        // 1. Cadastrar garcon vai criar um carcon
-        // 1.1 Addicinar garcom na lista de garçom
+        System.out.println("11:Quantidade de Mesas está sendo atendidas pelo garçom");
+        System.out.println("12: Sair do programa");
 
-        // Exemplo: se for cadastrar mesa
-        // 1. Criar funcao de cadastrar mesa (CRUD)
-        //
     }
 }
