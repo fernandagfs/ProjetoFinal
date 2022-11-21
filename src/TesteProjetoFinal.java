@@ -3,6 +3,8 @@ import dominio.Pessoa;
 import dominio.Mesa;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class TesteProjetoFinal {
@@ -97,6 +99,7 @@ public class TesteProjetoFinal {
         switch (opcao) {
             case 1:
                 boolean achou = false;
+                
                 for (int i = 0; i < mesas.size(); i++) {
                     Mesa mesaVetor = mesas.get(i);
 
@@ -437,11 +440,13 @@ public class TesteProjetoFinal {
                             System.out.println("Mesa já tem reserva cadastrada, deseja cancelar a reserva? ");
                             System.out.println("Sim ou Não");
                             String opcao2 = sc.nextLine();
+                            achou3 = true;
                             if (opcao2.equalsIgnoreCase("Sim")) {
                                 mesaVetor.setSituacao("Livre");
                                 System.out.println("Cancelamento da Reserva com sucesso!!");
                                 achou3 = true;
                             } else {
+                                achou3 = true;
                                 break;
                             }
                         }
