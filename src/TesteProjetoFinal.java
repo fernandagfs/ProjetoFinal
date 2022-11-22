@@ -607,7 +607,7 @@ public class TesteProjetoFinal {
         for (int i = 0; i < garcons.size(); i++) {
             Pessoa garcomDeletar = garcons.get(i);
             if (codigoGarcomRemover == garcomDeletar.getCodigo()) {
-               // garcons.remove(i);
+                // garcons.remove(i);
                 existe = true;
                 break;
             }
@@ -624,34 +624,33 @@ public class TesteProjetoFinal {
         boolean novoGarcomExiste = false;
         Pessoa garcomSubstituir = null;
 
+
+        // Verifica se o garcom novo existe
+        for (int j = 0; j < garcons.size(); j++) {
+            garcomSubstituir = garcons.get(j);
+
+            // Se existe, então substitui
+            if (codigoGarcomNovo == garcomSubstituir.getCodigo()) {
+                novoGarcomExiste = true;
+                break;
+            }
+        }
+        if (!novoGarcomExiste) {
+            System.out.println("Novo garçom não cadastrado");
+            return;
+        }
         for (int i = 0; i < mesas.size(); i++) {
             Mesa mesaAtual = mesas.get(i);
 
             // Verificar onde ele estava para substituir nas mesas
             if (mesaAtual.getGarcom().getCodigo() == codigoGarcomRemover) {
 
-                // Verifica se o garcom novo existe
-                for (int j = 0; j < garcons.size(); j++) {
-                    garcomSubstituir = garcons.get(j);
-
-                    // Se existe, então substitui
-                    if (codigoGarcomNovo == garcomSubstituir.getCodigo()) {
-                        novoGarcomExiste = true;
-                        break;
-                    }
-                }
-
-                if (!novoGarcomExiste) {
-                    System.out.println("Novo garçom não cadastrado");
-                    return;
-                }
-
                 // substitui o garcom
                 mesaAtual.setGarcom(garcomSubstituir);
 
             }
         }
-        if (existe = true) {
+        if (novoGarcomExiste = true) {
             for (int i = 0; i < garcons.size(); i++) {
                 Pessoa garcomDeletar = garcons.get(i);
                 if (codigoGarcomRemover == garcomDeletar.getCodigo()) {
@@ -664,7 +663,6 @@ public class TesteProjetoFinal {
 
         System.out.println("Garcom alterado com sucesso");
     }
-
 
 
     private static void cadastrarGarcom(Scanner sc) {
