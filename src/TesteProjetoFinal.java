@@ -99,7 +99,7 @@ public class TesteProjetoFinal {
         switch (opcao) {
             case 1:
                 boolean achou = false;
-                
+
                 for (int i = 0; i < mesas.size(); i++) {
                     Mesa mesaVetor = mesas.get(i);
 
@@ -535,7 +535,7 @@ public class TesteProjetoFinal {
     private static void cadastrarMesa(Scanner sc) {
 
         if (garcons.size() == 0) {
-            System.out.println("Cadastre pelo menos um garom");
+            System.out.println("Cadastre pelo menos um garçom");
             return;
         }
 
@@ -601,14 +601,13 @@ public class TesteProjetoFinal {
     private static void removeGarcom(Scanner sc) {
         System.out.println("Digite o código do Garçom para remover: ");
         int codigoGarcomRemover = Integer.parseInt(sc.nextLine());
-
         boolean existe = false;
 
         // Verifica se o garcom existe
         for (int i = 0; i < garcons.size(); i++) {
             Pessoa garcomDeletar = garcons.get(i);
             if (codigoGarcomRemover == garcomDeletar.getCodigo()) {
-                garcons.remove(i);
+               // garcons.remove(i);
                 existe = true;
                 break;
             }
@@ -652,9 +651,21 @@ public class TesteProjetoFinal {
 
             }
         }
+        if (existe = true) {
+            for (int i = 0; i < garcons.size(); i++) {
+                Pessoa garcomDeletar = garcons.get(i);
+                if (codigoGarcomRemover == garcomDeletar.getCodigo()) {
+                    garcons.remove(i);
+                    break;
+                }
+            }
+        }
+
 
         System.out.println("Garcom alterado com sucesso");
     }
+
+
 
     private static void cadastrarGarcom(Scanner sc) {
         System.out.println("Entre com o Código do Garçom: ");
@@ -702,7 +713,7 @@ public class TesteProjetoFinal {
         System.out.println("3: Cadastrar Mesa ");
         System.out.println("4: Remover Mesa ");
         System.out.println("5: Alterar Garçom da Mesa ");
-        System.out.println("6: Atendimento ");
+        System.out.println("6: Registrar Atendimento ");
         // 7.1: Reservar mesa ok
         // 7.2: Atender mesa ok
         // 7.3: Fechar mesa ok
@@ -710,7 +721,7 @@ public class TesteProjetoFinal {
         //8.1: Buscar Mesa pelo código do garçom
         //8.2: Buscar Mesa pela capacidade
         //8.3: Buscar Mesa pelo numero da mesa
-        System.out.println("8:Relatórios ");
+        System.out.println("8: Gerar Relatórios ");
         //11.1 :Relatório de Mesas Livres ok
         //11.2: Relatório de Mesas Ocupadas ok
         //11.3: Relatório de Mesas Reservadas ok
