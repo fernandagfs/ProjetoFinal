@@ -1,14 +1,24 @@
+import bancodados.Conexao;
+import bancodados.GarcomBanco;
+import bancodados.MesaBanco;
 import dominio.Garcom;
 import dominio.Mesa;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TesteProjetoFinal {
     private static ArrayList<Mesa> mesas = new ArrayList<>();
     private static ArrayList<Garcom> garcons = new ArrayList<>();
+    private static Connection conexao = Conexao.getInstance();
+    private static GarcomBanco garcomBanco;
+    private static MesaBanco mesaBanco;
 
     public static void main(String[] args) {
+        instanciarBancos(conexao);
+
+
         Scanner sc = new Scanner(System.in);
         int opcao = 0;
 
@@ -56,6 +66,11 @@ public class TesteProjetoFinal {
         }
     }
 
+    private static void instanciarBancos(Connection conexao) {
+        garcomBanco = new GarcomBanco(conexao);
+        mesaBanco = new MesaBanco(conexao);
+    }
+
     private static void buscarGarcom(Scanner sc) {
 
         System.out.println("Digite o e-mail do Garçom:");
@@ -72,7 +87,7 @@ public class TesteProjetoFinal {
                         "Data de Nascimneto: " + garcomVetor.getDataNascimento() + "\n" +
                         "E-mail: " + garcomVetor.getEmail() + "\n" +
                         "Sexo: " + garcomVetor.getSexo() + "\n" +
-                        "Salário: " + garcomVetor.getSalario() + "\n");
+                        "Salário: " + garcomVetor.getSalarioFixo() + "\n");
 
                 achou6 = true;
                 break;
@@ -443,6 +458,10 @@ public class TesteProjetoFinal {
             System.out.println("Mesa não cadastrada");
         }
     }
+    private static void cadstrarMesaBanco (Mesa mesa) {
+        mesaBanco.salvarMesa (mesa);
+    }
+
 
     private static void cadastrarMesa(Scanner sc) {
 
@@ -513,44 +532,27 @@ public class TesteProjetoFinal {
     private static void removeGarcom(Scanner sc) {
         System.out.println("Digite o código do Garçom para remover: ");
         int codigoGarcomRemover = Integer.parseInt(sc.nextLine());
-        boolean existe = false;
 
         // Verifica se o garcom existe
-        for (int i = 0; i < garcons.size(); i++) {
-            Garcom garcomDeletar = garcons.get(i);
-            if (codigoGarcomRemover == garcomDeletar.getCodigo()) {
-                // garcons.remove(i);
-                existe = true;
-                break;
-            }
-        }
-
-        if (!existe) {
-            System.out.println("Garçom não encontrado");
+        Garcom garcomEncontrado = garcomBanco.buscarPorCodigo(codigoGarcomRemover);
+        if (garcomEncontrado == null) {
+            System.out.println("Código do garcom não encontrado");
             return;
         }
 
         System.out.println("Digite o código do novo garçom!");
         int codigoGarcomNovo = Integer.parseInt(sc.nextLine());
 
-        boolean novoGarcomExiste = false;
-        Garcom garcomSubstituir = null;
-
-
         // Verifica se o garcom novo existe
-        for (int j = 0; j < garcons.size(); j++) {
-            garcomSubstituir = garcons.get(j);
-
-            // Se existe, então substitui
-            if (codigoGarcomNovo == garcomSubstituir.getCodigo()) {
-                novoGarcomExiste = true;
-                break;
-            }
-        }
-        if (!novoGarcomExiste) {
-            System.out.println("Novo garçom não cadastrado");
+        Garcom garcomNovoEncontrado = garcomBanco.buscarPorCodigo(codigoGarcomNovo);
+        if (garcomNovoEncontrado == null) {
+            System.out.println("Código do garcom não encontrado");
             return;
         }
+       // Buscar a mesa por código do garcom antigo
+       // Substituir o garcom antigo pelo novo nessa mesa
+       // Salvar a mesa com o garcom novo
+       // Excluir o garcom antigo
         for (int i = 0; i < mesas.size(); i++) {
             Mesa mesaAtual = mesas.get(i);
 
@@ -576,19 +578,29 @@ public class TesteProjetoFinal {
         System.out.println("Garcom alterado com sucesso");
     }
 
+    private static void cadastrarGarcomBanco(Garcom garcom) {
+        garcomBanco.salvar(garcom);
+    }
 
     private static void cadastrarGarcom(Scanner sc) {
         System.out.println("Entre com o Código do Garçom: ");
         int codigoGarcom = Integer.parseInt(sc.nextLine());
 
-        for (int i = 0; i < garcons.size(); i++) {
-            Garcom garcomVetor = garcons.get(i);
+        // primeira validacao por codigo duplicado
+        Garcom garcomEncontrado = garcomBanco.buscarPorCodigo(codigoGarcom);
+        if (garcomEncontrado != null) {
+            System.out.println("Código do garcom já cadastrado");
+            return;
+        }
 
-            if (garcomVetor.getCodigo() == codigoGarcom) {
-                System.out.println("Código já cadastrado");
-                ;
-                return;
-            }
+        System.out.println("Entre com o e-mail: ");
+        String email = sc.nextLine();
+
+        // Validar se já existe email
+        Garcom garcomEmailEncontrado = garcomBanco.buscarPorEmail(email);
+        if (garcomEmailEncontrado != null) {
+            System.out.println("Email do garcom já cadastrado");
+            return;
         }
 
         System.out.println("Entre com Nome do Garçom: ");
@@ -600,20 +612,18 @@ public class TesteProjetoFinal {
         System.out.println("Entre com a Data de Nascimento dd/mm/aa: ");
         String dataNascimento = sc.nextLine();
 
-        System.out.println("Entre com o e-mail: ");
-        String email = sc.nextLine();
-
         System.out.println("Entre como  sexo (Masculino ou Feminino): ");
         String sexo = sc.nextLine();
 
         System.out.println("Entre com o salário: ");
         double salario = Double.parseDouble(sc.nextLine());
 
-        Garcom garcom = new Garcom(codigoGarcom, nome, CPF, dataNascimento, email, sexo, salario);
-        garcons.add(garcom);
+        System.out.println("Entre como o telefone: ");
+        String telefone = sc.nextLine();
+
+        Garcom garcom = new Garcom(codigoGarcom, nome, CPF, dataNascimento, email, sexo, salario, telefone);
+        cadastrarGarcomBanco(garcom);
         System.out.println("Garçom cadastrado com sucesso!!");
-
-
     }
 
     private static void mostraMenu() {

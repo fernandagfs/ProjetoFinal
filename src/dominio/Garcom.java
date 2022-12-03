@@ -7,16 +7,26 @@ public class Garcom {
     private String dataNascimento;
     private String email;
     private String sexo;
-    private double salario;
+    private String telefone;
+    private double salarioFixo;
 
-    public Garcom(int codigo, String nome, String CPF, String dataNascimento, String email, String sexo, double salario) {
+    public Garcom(int codigo, String nome, String CPF, String dataNascimento, String email, String sexo, double salario, String telefone) {
         this.codigo = codigo;
         this.nome = nome;
         this.CPF = CPF;
         this.dataNascimento = dataNascimento;
         this.email = email;
         this.sexo = sexo;
-        this.salario = salario;
+        this.salarioFixo = salario;
+        this.telefone = telefone;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public int getCodigo() {
@@ -67,12 +77,12 @@ public class Garcom {
         this.sexo = sexo;
     }
 
-    public double getSalario() {
-        return salario;
+    public double getSalarioFixo() {
+        return salarioFixo;
     }
 
-    public void setSalario(double salario) {
-        this.salario = salario;
+    public void setSalarioFixo(double salarioFixo) {
+        this.salarioFixo = salarioFixo;
     }
 
     @Override
@@ -84,7 +94,7 @@ public class Garcom {
                 ", Data de Nascimento= '" + dataNascimento + '\'' +
                 ", e-mail= '" + email + '\'' +
                 ", Sexo= '" + sexo + '\'' +
-                ", Salario= " + salario ;
+                ", Salario= " + salarioFixo;
     }
 }
 
